@@ -36,6 +36,13 @@
 		</dependency>
 
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version> <!-- Latest stable version -->
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.razorpay</groupId>
             <artifactId>razorpay-java</artifactId>
             <version>1.4.8</version>
