@@ -9,7 +9,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-
+@Data
 @Entity
 @Getter
 @Setter

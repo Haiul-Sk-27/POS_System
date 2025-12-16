@@ -3,16 +3,24 @@ package com.StoreHub.StoreHub.pos.system.service.impl;
 import com.StoreHub.StoreHub.pos.system.configuration.JwtProvider;
 import com.StoreHub.StoreHub.pos.system.domain.UserRole;
 import com.StoreHub.StoreHub.pos.system.exceptions.UserException;
+import com.StoreHub.StoreHub.pos.system.mapper.UserMapper;
 import com.StoreHub.StoreHub.pos.system.model.User;
 import com.StoreHub.StoreHub.pos.system.payload.response.AuthResponse;
 import com.StoreHub.StoreHub.pos.system.payload.response.dto.UserDto;
 import com.StoreHub.StoreHub.pos.system.repository.UserRepository;
 import com.StoreHub.StoreHub.pos.system.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -44,12 +52,60 @@ public class AuthServiceImpl implements AuthService {
         newUser.setCreateAt(LocalDateTime.now());
 
         newUser.setUpdateAt(LocalDateTime.now());
-        userRepository.save(newUser);
-        return null;
+        User savedUser = userRepository.save(newUser);
+
+        Authentication authentication =
+
+                new UsernamePasswordAuthenticationToken(userDto.getEmail(),userDto.getPassword());
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = jwtProvider.generateToken(authentication);
+
+        AuthResponse authResponse =new AuthResponse();
+        authResponse.setJwt(jwt);
+        authResponse.setMessage("Register successfully");
+        authResponse.setUser(UserMapper.toDTO(savedUser));
+
+        return authResponse;
     }
 
     @Override
-    public AuthResponse login(UserDto userDto) {
-        return null;
+    public AuthResponse login(UserDto userDto) throws UserException {
+        String email = userDto.getEmail();
+        String password = userDto.getPassword();
+        Authentication authentication = authenticate(email,password);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        String role = authorities.iterator().next().getAuthority();
+        String jwt = jwtProvider.generateToken(authentication);
+        User user = userRepository.findByEmail(email);
+
+        user.setLastLogin(LocalDateTime.now());
+        userRepository.save(user);
+
+        AuthResponse authResponse =new AuthResponse();
+        authResponse.setJwt(jwt);
+        authResponse.setMessage("Login successfully");
+        authResponse.setUser(UserMapper.toDTO(user));
+
+        return authResponse;
+    }
+
+    private Authentication authenticate(String email, String password) throws UserException {
+
+        UserDetails userDetails = customUserImplementation.loadUserByUsername(email);
+
+        if(userDetails == null){
+            throw  new UserException("email is doesn't exist"+email);
+        }
+
+        if(!passwordEncoder.matches(password,userDetails.getPassword())){
+            throw new UserException("Password doesn't not match");
+        }
+
+        return  new UsernamePasswordAuthenticationToken(userDetails,null);
     }
 }
