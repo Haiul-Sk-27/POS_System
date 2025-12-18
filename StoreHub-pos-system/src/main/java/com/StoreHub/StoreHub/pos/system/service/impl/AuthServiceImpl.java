@@ -20,13 +20,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final CustomUserImplementation customUserImplementation;
@@ -106,6 +105,10 @@ public class AuthServiceImpl implements AuthService {
             throw new UserException("Password doesn't not match");
         }
 
-        return  new UsernamePasswordAuthenticationToken(userDetails,null);
+        return new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+        );
     }
 }
