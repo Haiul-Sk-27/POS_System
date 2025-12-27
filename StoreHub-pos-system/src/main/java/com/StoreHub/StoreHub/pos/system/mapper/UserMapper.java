@@ -5,7 +5,6 @@ import com.StoreHub.StoreHub.pos.system.payload.response.dto.UserDto;
 
 public class UserMapper {
 
-
     public static UserDto toDTO(User savedUser) {
         UserDto userDto = new UserDto();
         userDto.setId(savedUser.getId());
