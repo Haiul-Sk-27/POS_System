@@ -84,7 +84,7 @@ public class StoreServiceImpl implements StoreService {
         if(storeDTO.getContact()!= null){
             StoreContact contact = StoreContact.builder()
                     .address(storeDTO.getContact().getAddress())
-                    .phone(storeDTO.getContact().getEmail())
+                    .phone(storeDTO.getContact().getPhone())
                     .email(storeDTO.getContact().getEmail())
                     .build();
             existing.setContact(contact);
