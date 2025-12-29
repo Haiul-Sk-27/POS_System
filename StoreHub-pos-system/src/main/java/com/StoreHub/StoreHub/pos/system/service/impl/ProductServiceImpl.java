@@ -1,10 +1,12 @@
 package com.StoreHub.StoreHub.pos.system.service.impl;
 
 import com.StoreHub.StoreHub.pos.system.mapper.ProductMapper;
+import com.StoreHub.StoreHub.pos.system.model.Category;
 import com.StoreHub.StoreHub.pos.system.model.Product;
 import com.StoreHub.StoreHub.pos.system.model.Store;
 import com.StoreHub.StoreHub.pos.system.model.User;
 import com.StoreHub.StoreHub.pos.system.payload.response.dto.ProductDto;
+import com.StoreHub.StoreHub.pos.system.repository.CategoryRepository;
 import com.StoreHub.StoreHub.pos.system.repository.ProductRepository;
 import com.StoreHub.StoreHub.pos.system.repository.StoreRepository;
 import com.StoreHub.StoreHub.pos.system.service.ProductService;
@@ -21,6 +23,8 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final StoreRepository storeRepository;
+    private  final CategoryRepository categoryRepository;
+
     @Override
     public ProductDto createProduct(ProductDto productDto, User user) throws Exception {
 
@@ -30,7 +34,11 @@ public class ProductServiceImpl implements ProductService {
                 ()->new Exception("Store not found")
         );
 
-        Product product = ProductMapper.toEntity(productDto,store);
+        Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
+                ()-> new Exception("Category not found")
+        );
+
+        Product product = ProductMapper.toEntity(productDto,store,category);
         Product savedProduct = productRepository.save(product);
         return ProductMapper.toDto(savedProduct);
     }
@@ -49,8 +57,15 @@ public class ProductServiceImpl implements ProductService {
         product.setBrand(productDto.getBrand());
         product.setUpdatedAt(LocalDateTime.now());
 
-        Product saveProduct = productRepository.save(product);
+        if(productDto.getCategoryId()!=null){
 
+            Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
+                    ()->new Exception ("Category not found")
+            );
+            product.setCategory(category);
+        }
+
+        Product saveProduct = productRepository.save(product);
         return ProductMapper.toDto(saveProduct);
     }
 
