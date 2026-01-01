@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +41,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public InventoryDto updateInventory( Long id,InventoryDto inventoryDto) {
+    public InventoryDto updateInventory( Long id,InventoryDto inventoryDto) throws Exception {
 
         Inventory inventory = inventoryRepository.findById(id).orElseThrow(
                 ()->new Exception("Inventory not found")
@@ -52,22 +53,34 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public void deleteInventory(Long id) {
+    public void deleteInventory(Long id) throws Exception {
+        Inventory inventory = inventoryRepository.findById(id).orElseThrow(
+                ()->new Exception("Inventory not found")
+        );
 
+        inventoryRepository.delete(inventory);
     }
 
     @Override
-    public InventoryDto getInventoryById(Long id) {
-        return null;
+    public InventoryDto getInventoryById(Long id) throws Exception {
+
+        Inventory inventory = inventoryRepository.findById(id).orElseThrow(
+                ()->new Exception("Inventory not found")
+        );
+        return InventoryMapper.toDTO(inventory);
     }
 
     @Override
-    public InventoryDto getInventoryByProductIdAndBranchId(Long productId) {
-        return null;
+    public InventoryDto getInventoryByProductIdAndBranchId(Long productId,Long branchId) {
+        Inventory inventory = inventoryRepository.findByProductIdAndBranchId(productId,branchId);
+        return InventoryMapper.toDTO(inventory);
     }
 
     @Override
     public List<InventoryDto> getAllInventoryByBranchId(Long branchId) {
-        return List.of();
+        List<Inventory> inventories = inventoryRepository.findByBranceId(branchId);
+        return inventories.stream().map(
+                InventoryMapper::toDTO
+        ).collect(Collectors.toList());
     }
 }
