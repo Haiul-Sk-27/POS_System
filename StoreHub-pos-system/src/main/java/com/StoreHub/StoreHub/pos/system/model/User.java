@@ -30,6 +30,9 @@ public class User {
     @ManyToOne
     private Store store;
 
+    @ManyToOne
+    private Branch branch;
+
     private String phone;
 
     @Column(nullable = false)
@@ -41,4 +44,5 @@ public class User {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
     private LocalDateTime lastLogin;
+
 }

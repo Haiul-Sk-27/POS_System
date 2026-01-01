@@ -42,7 +42,7 @@ public class InventoryController {
         return ResponseEntity.ok(inventoryService.getInventoryByProductIdAndBranchId(productId,branchId));
     }
 
-    @GetMapping("/branch/{BranchId}")
+    @GetMapping("/branch/{branchId}")
     public ResponseEntity<List<InventoryDto>> getInventoryByBranch(@PathVariable Long branchId){
         return  ResponseEntity.ok(inventoryService.getAllInventoryByBranchId(branchId));
     }

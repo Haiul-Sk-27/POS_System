@@ -78,7 +78,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public List<InventoryDto> getAllInventoryByBranchId(Long branchId) {
-        List<Inventory> inventories = inventoryRepository.findByBranceId(branchId);
+        List<Inventory> inventories = inventoryRepository.findByBranchId(branchId);
         return inventories.stream().map(
                 InventoryMapper::toDTO
         ).collect(Collectors.toList());

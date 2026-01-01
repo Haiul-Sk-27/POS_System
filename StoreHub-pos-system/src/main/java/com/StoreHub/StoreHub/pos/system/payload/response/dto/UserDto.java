@@ -16,6 +16,10 @@ public class UserDto {
 
     private String phone;
 
+    private Long branchId;
+
+    private Long storeId;
+
     private String password;
 
     private UserRole role;

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class Inventory {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     @ManyToOne
@@ -29,7 +30,7 @@ public class Inventory {
 
     @PrePersist
     @PreUpdate
-    protected void onUpdate(){
+    protected void onUpdate() {
         lastUpdate = LocalDateTime.now();
     }
 }
