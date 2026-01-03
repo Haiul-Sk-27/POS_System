@@ -26,7 +26,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employee);
     }
 
-    @PostMapping("/store/{branchId}")
+    @PostMapping("/branch/{branchId}")
     public ResponseEntity<UserDto> createBrachEmployee(@PathVariable Long branchId,
                                                        @RequestBody  UserDto userDto) throws Exception {
         UserDto employee = employeeService.createBranchEmployee(userDto,branchId);

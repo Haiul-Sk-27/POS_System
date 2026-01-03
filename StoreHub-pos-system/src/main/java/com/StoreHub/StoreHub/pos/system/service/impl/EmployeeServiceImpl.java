@@ -15,6 +15,7 @@ import org.springframework.expression.ExpressionException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +50,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         user.setStore(store);
         user.setBranch(branch);
         user.setPassword(passwordEncoder.encode(employee.getPassword()));
+        user.setCreateAt(LocalDateTime.now());
+        user.setUpdateAt(LocalDateTime.now());
 
         User savedEmployee = userRepository.save(user);
         if(employee.getRole() == UserRole.ROLE_BRANCH_MANAGER && branch != null){
@@ -92,6 +95,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.getRole() == UserRole.ROLE_BRANCH_MANAGER){
             User user = UserMapper.toEntity(employee);
             user.setBranch(branch);
+            user.setStore(branch.getStore());
+            user.setCreateAt(LocalDateTime.now());
+            user.setUpdateAt(LocalDateTime.now());
             user.setPassword(passwordEncoder.encode(employee.getPassword()));
             return UserMapper.toDTO(userRepository.save(user));
         }
