@@ -22,6 +22,7 @@ public class Customer {
 
     private String phone;
 
+
     private LocalDateTime createAt;
     private LocalDateTime updatedAt;
 
