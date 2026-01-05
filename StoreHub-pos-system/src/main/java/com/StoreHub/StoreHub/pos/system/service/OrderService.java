@@ -3,7 +3,6 @@ package com.StoreHub.StoreHub.pos.system.service;
 import com.StoreHub.StoreHub.pos.system.domain.OrderStatus;
 import com.StoreHub.StoreHub.pos.system.domain.PaymentType;
 import com.StoreHub.StoreHub.pos.system.payload.response.dto.OrderDto;
-import com.razorpay.Payment;
 
 import java.util.List;
 
@@ -20,5 +19,7 @@ public interface OrderService {
     void deleteOrder(Long id) throws Exception;
     List<OrderDto> getTodayOrderByBranch(Long branchId);
     List<OrderDto> getOrderByCustomerId(Long cutomerId);
-    List<OrderDto> getTopRecentOrdersByBranch(Long branchId )throws Exception;
+    List<OrderDto> getTop5RecentOrdersByBranch(Long branchId )throws Exception;
+
+
 }

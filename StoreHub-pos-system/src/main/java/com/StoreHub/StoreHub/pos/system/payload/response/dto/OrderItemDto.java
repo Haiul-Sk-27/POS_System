@@ -3,10 +3,12 @@ package com.StoreHub.StoreHub.pos.system.payload.response.dto;
 import com.StoreHub.StoreHub.pos.system.model.Order;
 import com.StoreHub.StoreHub.pos.system.model.Product;
 import jakarta.persistence.ManyToOne;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class OrderItemDto {
 

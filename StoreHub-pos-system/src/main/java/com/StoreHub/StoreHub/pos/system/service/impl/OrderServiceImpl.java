@@ -5,6 +5,7 @@ import com.StoreHub.StoreHub.pos.system.domain.PaymentType;
 import com.StoreHub.StoreHub.pos.system.mapper.OrderMapper;
 import com.StoreHub.StoreHub.pos.system.model.*;
 import com.StoreHub.StoreHub.pos.system.payload.response.dto.OrderDto;
+import com.StoreHub.StoreHub.pos.system.repository.CustomerRepository;
 import com.StoreHub.StoreHub.pos.system.repository.OrderRepository;
 import com.StoreHub.StoreHub.pos.system.repository.ProductRepository;
 import com.StoreHub.StoreHub.pos.system.service.OrderService;
@@ -25,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
     private final UserService userService;
     private final ProductRepository productRepository;
     private  final OrderRepository orderRepository;
-
+    private final CustomerRepository customerRepository;
 
     @Override
     public OrderDto createOrder(OrderDto orderDto) throws Exception {
@@ -37,15 +38,13 @@ public class OrderServiceImpl implements OrderService {
         }
 
         Customer customer = customerRepository.findById(orderDto.getCustomerId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Customer not found with id: " + orderDto.getCustomerId()
-                ));
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
 
         Order order = Order.builder()
                 .branch(branch)
                 .cashier(cashier)
-                .customer(orderDto.getCustomerId())
-                .payment(orderDto.getPaymentType())
+                .customer(customer)
+                .paymentType(orderDto.getPaymentType())
                 .build();
 
         List<OrderItem> orderItems = orderDto.getItems().stream().map(
@@ -63,9 +62,10 @@ public class OrderServiceImpl implements OrderService {
                 }
         ).toList();
 
-        double total = orderItems.stream().mapToDouble(
-                orderItems::getPrice
-        ).sum();
+        double total = orderItems.stream()
+                .mapToDouble(OrderItem::getPrice)
+                .sum();
+
 
         order.setTotalAmount(total);
         order.setItems(orderItems);
@@ -116,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
         LocalDateTime start = today.atStartOfDay();
         LocalDateTime end = today.plusDays(1).atStartOfDay();
 
-        return orderRepository.findByBranchIdAndCreateAtBetween(
+        return orderRepository.findByBranchIdAndCreatedAtBetween(
                 branchId,start,end
         ).stream().map(OrderMapper::toDTO).collect(Collectors.toList());
     }
@@ -129,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> getTopRecentOrdersByBranch(Long branchId) throws Exception {
+    public List<OrderDto> getTop5RecentOrdersByBranch(Long branchId) throws Exception {
         return orderRepository.findTop5ByBranchIdOrderByCreatedAtDesc(branchId).stream()
                 .map(
                         OrderMapper::toDTO
