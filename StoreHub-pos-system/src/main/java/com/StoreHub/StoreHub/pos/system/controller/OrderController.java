@@ -2,6 +2,7 @@ package com.StoreHub.StoreHub.pos.system.controller;
 
 import com.StoreHub.StoreHub.pos.system.domain.OrderStatus;
 import com.StoreHub.StoreHub.pos.system.domain.PaymentType;
+import com.StoreHub.StoreHub.pos.system.payload.response.ApiResponse;
 import com.StoreHub.StoreHub.pos.system.payload.response.dto.OrderDto;
 import com.StoreHub.StoreHub.pos.system.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +28,13 @@ public class OrderController {
     }
 
     @GetMapping("/branch/{branchId}")
-    public ResponseEntity<List<OrderDto>> getOrderByBranch(@PathVariable Long id,
+    public ResponseEntity<List<OrderDto>> getOrderByBranch(@PathVariable Long branchId,
                                                  @RequestParam(required = false) Long customerId,
                                                  @RequestParam(required = false) Long cashierId,
                                                  @RequestParam(required = false)PaymentType paymentType,
                                                  @RequestParam(required = false)OrderStatus orderStatus
                                                      ) throws Exception {
-        return ResponseEntity.ok(orderService.getOrderByBranch(id,cashierId,cashierId,paymentType,orderStatus));
+        return ResponseEntity.ok(orderService.getOrderByBranch(branchId,cashierId,cashierId,paymentType,orderStatus));
     }
 
     @GetMapping("/cachier/{id}")
@@ -54,5 +55,15 @@ public class OrderController {
     @GetMapping("/recent/{branchId}")
     public ResponseEntity<List<OrderDto>> getRecentOrder(@PathVariable Long branchId) throws Exception {
         return ResponseEntity.ok(orderService.getTop5RecentOrdersByBranch(branchId));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse> deleteOrder(@PathVariable Long id) throws Exception {
+        orderService.deleteOrder(id);
+
+        ApiResponse response = new ApiResponse();
+        response.setMessage("order deleted successfull");
+
+        return ResponseEntity.ok(response);
     }
 }

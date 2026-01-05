@@ -1,0 +1,91 @@
+package com.StoreHub.StoreHub.pos.system.service.impl;
+
+import com.StoreHub.StoreHub.pos.system.mapper.RefundMapper;
+import com.StoreHub.StoreHub.pos.system.model.Branch;
+import com.StoreHub.StoreHub.pos.system.model.Order;
+import com.StoreHub.StoreHub.pos.system.model.Refund;
+import com.StoreHub.StoreHub.pos.system.model.User;
+import com.StoreHub.StoreHub.pos.system.payload.response.dto.RefundDto;
+import com.StoreHub.StoreHub.pos.system.repository.OrderRepository;
+import com.StoreHub.StoreHub.pos.system.repository.RefundRepository;
+import com.StoreHub.StoreHub.pos.system.service.RefundService;
+import com.StoreHub.StoreHub.pos.system.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class RefundServiceImpl implements RefundService {
+
+    private final UserService userService;
+    private final OrderRepository orderRepository;
+    private final RefundRepository refundRepository;
+
+    @Override
+    public Refund createRefund(Refund refund) throws Exception {
+        User cashier = userService.getCurrentUser();
+
+        Order order = orderRepository.findById(refund.getOrder().getId()).orElseThrow(
+                ()->new Exception("Order not found")
+        );
+
+        Branch branch =order.getBranch();
+        Refund createRefund = Refund.builder()
+                .order(order)
+                .cashier(cashier)
+                .branch(branch)
+                .reason(refund.getReason())
+                .amount(refund.getAmount())
+                .paymentType(refund.getPaymentType())
+                .build();
+
+        Refund savedRefund = refundRepository.save(createRefund);
+
+        return RefundMapper.toDTO(savedRefund);
+    }
+
+    @Override
+    public List<RefundDto> getAllRefunds() throws Exception {
+
+        return refundRepository.findAll().stream().map(RefundMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RefundDto>  getRefundByCashier(Long cashierId) throws Exception {
+        return refundRepository.findByCashierId(cashierId).stream().map(RefundMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RefundDto> getRefundByShiftReport(Long shiftReportId) throws Exception {
+        return refundRepository.findByShiftReportId(shiftReportId).stream().map(RefundMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RefundDto> getRefundByCashierAndDateRange(Long cashierId, LocalDateTime startDate, LocalDateTime endDate) throws Exception {
+        return refundRepository.findByCashierIdAndCreateAtBetween(
+                cashierId,startDate,endDate
+        ).stream().map(RefundMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RefundDto> getRefundByBranch(Long branchId) throws Exception {
+        return refundRepository.findByBranchId(branchId).stream().map(RefundMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public RefundDto getRefundById(Long refundId) throws Exception {
+        return refundRepository.findById(refundId).map(RefundMapper::toDTO).orElseThrow(
+                ()->new Exception("Refund not found")
+        );
+    }
+
+    @Override
+    public void deleteRefund(Long refundId) throws Exception {
+        this.getAllRefunds(refundId);
+        refundRepository.deleteById(refundId);
+    }
+}
