@@ -26,10 +26,11 @@ public class RefundServiceImpl implements RefundService {
     private final RefundRepository refundRepository;
 
     @Override
-    public Refund createRefund(Refund refund) throws Exception {
+    public RefundDto createRefund(RefundDto refundDto) throws Exception {
+
         User cashier = userService.getCurrentUser();
 
-        Order order = orderRepository.findById(refund.getOrder().getId()).orElseThrow(
+        Order order = orderRepository.findById(refundDto.getOrderId()).orElseThrow(
                 ()->new Exception("Order not found")
         );
 
@@ -38,9 +39,9 @@ public class RefundServiceImpl implements RefundService {
                 .order(order)
                 .cashier(cashier)
                 .branch(branch)
-                .reason(refund.getReason())
-                .amount(refund.getAmount())
-                .paymentType(refund.getPaymentType())
+                .reason(refundDto.getReason())
+                .amount(refundDto.getAmount())
+                .paymentType(refundDto.getPaymentType())
                 .build();
 
         Refund savedRefund = refundRepository.save(createRefund);
@@ -66,7 +67,7 @@ public class RefundServiceImpl implements RefundService {
 
     @Override
     public List<RefundDto> getRefundByCashierAndDateRange(Long cashierId, LocalDateTime startDate, LocalDateTime endDate) throws Exception {
-        return refundRepository.findByCashierIdAndCreateAtBetween(
+        return refundRepository.findByCashierIdAndCreatedAtBetween(
                 cashierId,startDate,endDate
         ).stream().map(RefundMapper::toDTO).collect(Collectors.toList());
     }
@@ -85,7 +86,10 @@ public class RefundServiceImpl implements RefundService {
 
     @Override
     public void deleteRefund(Long refundId) throws Exception {
-        this.getAllRefunds(refundId);
-        refundRepository.deleteById(refundId);
+
+        Refund refund = refundRepository.findById(refundId)
+                .orElseThrow(() -> new Exception("Refund not found"));
+
+        refundRepository.delete(refund);
     }
 }

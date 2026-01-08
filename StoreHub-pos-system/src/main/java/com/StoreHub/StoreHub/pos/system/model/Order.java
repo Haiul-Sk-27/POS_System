@@ -41,6 +41,7 @@ public class Order {
     )
     private List<OrderItem> items;
 
+    @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
 
     @PrePersist

@@ -1,6 +1,5 @@
 package com.StoreHub.StoreHub.pos.system.service;
 
-import com.StoreHub.StoreHub.pos.system.model.Refund;
 import com.StoreHub.StoreHub.pos.system.payload.response.dto.RefundDto;
 
 import java.time.LocalDateTime;
@@ -8,7 +7,7 @@ import java.util.List;
 
 public interface RefundService {
 
-    Refund createRefund(Refund refund) throws Exception;
+    RefundDto createRefund(RefundDto refundDto) throws Exception;
     List<RefundDto> getAllRefunds() throws  Exception;
     List<RefundDto> getRefundByCashier(Long cashierId) throws Exception;
     List<RefundDto>  getRefundByShiftReport(Long shiftReportId) throws Exception;
