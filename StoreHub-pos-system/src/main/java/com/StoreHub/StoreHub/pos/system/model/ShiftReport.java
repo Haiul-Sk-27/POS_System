@@ -24,8 +24,8 @@ public class ShiftReport {
 
     private Double totalSales;
     private Double totalRefunds;
+    private int totalOrders;
     private Double netSale;
-    private Double totalOrders;
 
     @ManyToOne
     private User cashier;
