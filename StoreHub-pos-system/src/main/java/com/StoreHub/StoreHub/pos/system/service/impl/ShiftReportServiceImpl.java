@@ -35,7 +35,7 @@ public class ShiftReportServiceImpl implements ShiftReportService {
         LocalDateTime startOfDay = shiftStart.withHour(0).withMinute(0).withSecond(0);
         LocalDateTime endOfDay = shiftStart.withHour(23).withMinute(59).withSecond(59);
 
-        Optional<ShiftReport> existing = shiftReportRepository.findByCashierAndShiftStartBetWeen(currentUser,startOfDay,endOfDay);
+        Optional<ShiftReport> existing = shiftReportRepository.findByCashierAndShiftStartBetween(currentUser,startOfDay,endOfDay);
 
         if(existing.isPresent()){
             throw new Exception("Shift alredy is start today");
@@ -50,6 +50,7 @@ public class ShiftReportServiceImpl implements ShiftReportService {
                 .build();
 
         ShiftReport savedReport = shiftReportRepository.save(shiftReport);
+        System.out.println("Shift:"+savedReport);
 
         return ShiftReportMapper.toDto(savedReport);
     }
@@ -173,7 +174,7 @@ public class ShiftReportServiceImpl implements ShiftReportService {
         LocalDateTime start = date.withHour(0).withMinute(0).withSecond(0);
         LocalDateTime end = date.withHour(23).withMinute(59).withSecond(59);
 
-        ShiftReport report = shiftReportRepository.findByCashierAndShiftStartBetWeen(
+        ShiftReport report = shiftReportRepository.findByCashierAndShiftStartBetween(
                 cashier,start,end
         ).orElseThrow(()->new Exception("Shift report not found for cashier"+cashier));
 

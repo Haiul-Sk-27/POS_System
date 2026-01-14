@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -44,13 +43,13 @@ public class ShiftReportController {
             @PathVariable Long cashierId,
             @RequestParam
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDateTime date
+            LocalDate date
     ) throws Exception {
-
         return ResponseEntity.ok(
-                shiftReportService.getShiftByCashierAndDate(cashierId, date)
+                shiftReportService.getShiftByCashierAndDate(cashierId, date.atStartOfDay())
         );
     }
+
 
     @GetMapping("/cashier/{cashierId}")
     public ResponseEntity<List<ShiftReportDto>> getShiftReportByCashier(
@@ -76,7 +75,6 @@ public class ShiftReportController {
     public ResponseEntity<ShiftReportDto> getShiftReportById(
             @PathVariable Long id
     ) throws Exception {
-
         return ResponseEntity.ok(
                 shiftReportService.getShiftReportById(id)
         );
