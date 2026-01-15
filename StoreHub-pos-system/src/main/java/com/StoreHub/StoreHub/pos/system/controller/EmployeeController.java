@@ -1,6 +1,7 @@
 package com.StoreHub.StoreHub.pos.system.controller;
 
 import com.StoreHub.StoreHub.pos.system.domain.UserRole;
+import com.StoreHub.StoreHub.pos.system.mapper.UserMapper;
 import com.StoreHub.StoreHub.pos.system.model.User;
 import com.StoreHub.StoreHub.pos.system.payload.response.ApiResponse;
 import com.StoreHub.StoreHub.pos.system.payload.response.dto.UserDto;
@@ -35,11 +36,16 @@ public class EmployeeController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<User> updateEmployee(@PathVariable Long id,
-                                                       @RequestBody  UserDto userDto) throws Exception {
-        User employee = employeeService.updateEmployee(id,userDto);
+    public ResponseEntity<UserDto> updateEmployee(
+            @PathVariable Long id,
+            @RequestBody UserDto userDto) throws Exception {
 
-        return ResponseEntity.ok(employee);
+        User updatedUser = employeeService.updateEmployee(id, userDto);
+
+        UserDto responseDto = UserMapper.toDTO(updatedUser);
+        responseDto.setPassword(null);
+        return ResponseEntity.ok(responseDto);
+
     }
 
     @DeleteMapping("/{id}")
