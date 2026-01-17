@@ -3,10 +3,12 @@ package com.StoreHub.StoreHub.pos.system.mapper;
 import com.StoreHub.StoreHub.pos.system.model.*;
 import com.StoreHub.StoreHub.pos.system.payload.response.dto.OrderDto;
 import com.StoreHub.StoreHub.pos.system.payload.response.dto.ProductDto;
+import com.StoreHub.StoreHub.pos.system.payload.response.dto.RefundDto;
 import com.StoreHub.StoreHub.pos.system.payload.response.dto.ShiftReportDto;
 
 import java.security.cert.CertPathBuilder;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ShiftReportMapper {
@@ -18,25 +20,36 @@ public class ShiftReportMapper {
                 .shiftStart(entity.getShiftStart())
                 .totalSales(entity.getTotalSales())
                 .totalOrders(entity.getTotalOrders())
+                .totalRefunds(calculateTotalRefunds(entity.getRefunds()))
                 .netSale(entity.getNetSale())
                 .cashier(UserMapper.toDTO(entity.getCashier()))
                 .cashierId(entity.getCashier().getId())
                 .branchId(entity.getBranch().getId())
                 .recentOrder(mapOrders(entity.getRecentOrder()))
                 .topSellingProducts(mapProducts(entity.getTopSellingProducts()))
+                .refunds(mapRefunds(entity.getRefunds()))
                 .paymentSummaries(entity.getPaymentSummaries())
                 .build();
 
 
     }
 
+    private static List<RefundDto> mapRefunds(List<Refund> refunds) {
+        if (refunds == null || refunds.isEmpty()) return List.of();
+        return refunds.stream()
+                .map(RefundMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 
-//    private static List<RefundDto> mapRefunds(List<Refund> refunds) {
-//        if (refunds == null || refunds.isEmpty()) return List.of();
-//        return refunds.stream()
-//                .map(RefundMapper::toDTO)
-//                .collect(Collectors.toList());
-//    }
+    private static Double calculateTotalRefunds(List<Refund> refunds) {
+        if (refunds == null || refunds.isEmpty()) return 0.0;
+
+        return refunds.stream()
+                .map(Refund::getAmount)
+                .filter(Objects::nonNull)
+                .mapToDouble(Double::doubleValue)
+                .sum();
+    }
 
 
     private static List<ProductDto> mapProducts(List<Product> topSellingProducts) {
@@ -49,5 +62,4 @@ public class ShiftReportMapper {
         return recentOrder.stream().map(OrderMapper::toDTO).collect(Collectors.toList());
     }
 }
-
 

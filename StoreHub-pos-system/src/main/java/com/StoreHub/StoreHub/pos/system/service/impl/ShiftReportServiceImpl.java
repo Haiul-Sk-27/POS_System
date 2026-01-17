@@ -63,18 +63,22 @@ public class ShiftReportServiceImpl implements ShiftReportService {
                 ()->new Exception("Shirt is not found")
         );
 
-        shiftReport.setShiftEnd(shiftEnd);
+        shiftReport.setShiftEnd(shiftEnd != null?shiftEnd : LocalDateTime.now());
+        System.out.println("ShiftReport" + shiftReport);
 
         List<Refund> refunds = refundRepository.findByCashierIdAndCreatedAtBetween(
                 currentUser.getId(),shiftReport.getShiftStart(),shiftReport.getShiftEnd()
         );
+        System.out.println("Refunc"+refunds);
 
         Double totalRefund = refunds.stream()
                 .mapToDouble(refund -> refund.getAmount()!=null?refund.getAmount():0.0).sum();
+        System.out.println("Total refund: " + totalRefund);
 
         List<Order> orders = orderRepository.findByCashierAndCreatedAtBetween(
                 currentUser,shiftReport.getShiftStart(),shiftReport.getShiftEnd()
         );
+
         double totalSales = orders.stream().mapToDouble(Order::getTotalAmount).sum();
 
         int totalOrders = orders.size();
@@ -140,15 +144,20 @@ public class ShiftReportServiceImpl implements ShiftReportService {
         List<Refund> refunds = refundRepository.findByCashierIdAndCreatedAtBetween(
                 user.getId(),shiftReport.getShiftStart(),shiftReport.getShiftEnd()
         );
+        System.out.println("Refund: "+refunds);
 
         Double totalRefund = refunds.stream()
                 .mapToDouble(refund -> refund.getAmount()!=null?refund.getAmount():0.0).sum();
+        System.out.println("TotalRefund:"+totalRefund);
 
         double totalSales = orders.stream().mapToDouble(Order::getTotalAmount).sum();
+        System.out.println("TotalSales:"+totalSales);
 
         int totalOrders = orders.size();
+        System.out.println("Total:"+totalOrders);
 
         double netSales = totalSales-totalRefund;
+        System.out.println("netSales"+netSales);
 
         shiftReport.setTotalRefunds(totalRefund);
         shiftReport.setTotalSales(totalSales);

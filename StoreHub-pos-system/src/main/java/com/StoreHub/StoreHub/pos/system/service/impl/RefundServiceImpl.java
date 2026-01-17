@@ -1,14 +1,13 @@
 package com.StoreHub.StoreHub.pos.system.service.impl;
 
 import com.StoreHub.StoreHub.pos.system.mapper.RefundMapper;
-import com.StoreHub.StoreHub.pos.system.model.Branch;
-import com.StoreHub.StoreHub.pos.system.model.Order;
-import com.StoreHub.StoreHub.pos.system.model.Refund;
-import com.StoreHub.StoreHub.pos.system.model.User;
+import com.StoreHub.StoreHub.pos.system.model.*;
 import com.StoreHub.StoreHub.pos.system.payload.response.dto.RefundDto;
 import com.StoreHub.StoreHub.pos.system.repository.OrderRepository;
 import com.StoreHub.StoreHub.pos.system.repository.RefundRepository;
+import com.StoreHub.StoreHub.pos.system.repository.ShiftReportRepository;
 import com.StoreHub.StoreHub.pos.system.service.RefundService;
+import com.StoreHub.StoreHub.pos.system.service.ShiftReportService;
 import com.StoreHub.StoreHub.pos.system.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +23,7 @@ public class RefundServiceImpl implements RefundService {
     private final UserService userService;
     private final OrderRepository orderRepository;
     private final RefundRepository refundRepository;
+    private  final ShiftReportRepository shiftReportRepository;
 
     @Override
     public RefundDto createRefund(RefundDto refundDto) throws Exception {
@@ -34,11 +34,16 @@ public class RefundServiceImpl implements RefundService {
                 ()->new Exception("Order not found")
         );
 
+       ShiftReport shiftReport = shiftReportRepository
+               .findTopByCashierAndShiftEndIsNullOrderByShiftStartDesc(cashier)
+               .orElseThrow(() -> new IllegalStateException("No active shift for this cashier"));
+
         Branch branch =order.getBranch();
         Refund createRefund = Refund.builder()
                 .order(order)
                 .cashier(cashier)
                 .branch(branch)
+                .shiftReport(shiftReport)
                 .reason(refundDto.getReason())
                 .amount(refundDto.getAmount())
                 .paymentType(refundDto.getPaymentType())

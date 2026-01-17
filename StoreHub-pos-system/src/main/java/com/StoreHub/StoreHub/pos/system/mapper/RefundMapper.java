@@ -11,6 +11,8 @@ public class RefundMapper {
                 .orderId(refund.getOrder().getId())
                 .reason(refund.getReason())
                 .amount(refund.getAmount())
+                .shiftReportId(refund.getShiftReport() != null?
+                        refund.getShiftReport().getId():null)
                 .cashierName(refund.getCashier().getFullName())
                 .branchId(refund.getBranch().getId())
                 .paymentType(refund.getPaymentType())

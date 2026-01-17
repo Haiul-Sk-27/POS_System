@@ -24,7 +24,7 @@ public class Refund {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;   // ✅ ENTITY, not DTO
+    private Order order;
 
     private String reason;
     private Double amount;
