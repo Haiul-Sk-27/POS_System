@@ -29,6 +29,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final CustomUserImplementation customUserImplementation;
+//    private  final EmailService emailService;
 
     @Override
     public AuthResponse signup(UserDto userDto) throws UserException {
@@ -52,6 +53,11 @@ public class AuthServiceImpl implements AuthService {
 
         newUser.setUpdateAt(LocalDateTime.now());
         User savedUser = userRepository.save(newUser);
+
+//        emailService.sendSignupEmail(
+//                savedUser.getEmail(),
+//                savedUser.getFullName()
+//        );
 
         Authentication authentication =
 
