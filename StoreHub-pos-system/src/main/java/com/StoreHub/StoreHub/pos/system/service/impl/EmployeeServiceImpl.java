@@ -5,7 +5,7 @@ import com.StoreHub.StoreHub.pos.system.mapper.UserMapper;
 import com.StoreHub.StoreHub.pos.system.model.Branch;
 import com.StoreHub.StoreHub.pos.system.model.Store;
 import com.StoreHub.StoreHub.pos.system.model.User;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.UserDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.UserDto;
 import com.StoreHub.StoreHub.pos.system.repository.BranchRepository;
 import com.StoreHub.StoreHub.pos.system.repository.StoreRepository;
 import com.StoreHub.StoreHub.pos.system.repository.UserRepository;

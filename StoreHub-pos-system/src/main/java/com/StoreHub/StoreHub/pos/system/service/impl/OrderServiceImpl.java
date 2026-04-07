@@ -4,7 +4,7 @@ import com.StoreHub.StoreHub.pos.system.domain.OrderStatus;
 import com.StoreHub.StoreHub.pos.system.domain.PaymentType;
 import com.StoreHub.StoreHub.pos.system.mapper.OrderMapper;
 import com.StoreHub.StoreHub.pos.system.model.*;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.OrderDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.OrderDto;
 import com.StoreHub.StoreHub.pos.system.repository.CustomerRepository;
 import com.StoreHub.StoreHub.pos.system.repository.OrderRepository;
 import com.StoreHub.StoreHub.pos.system.repository.ProductRepository;

@@ -3,7 +3,7 @@ package com.StoreHub.StoreHub.pos.system.mapper;
 import com.StoreHub.StoreHub.pos.system.model.Branch;
 import com.StoreHub.StoreHub.pos.system.model.Inventory;
 import com.StoreHub.StoreHub.pos.system.model.Product;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.InventoryDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.InventoryDto;
 
 public class InventoryMapper {
 

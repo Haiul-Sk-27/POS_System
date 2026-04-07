@@ -1,7 +1,5 @@
-package com.StoreHub.StoreHub.pos.system.payload.response.dto;
+package com.StoreHub.StoreHub.pos.system.payload.dto;
 
-import com.StoreHub.StoreHub.pos.system.model.Branch;
-import com.StoreHub.StoreHub.pos.system.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

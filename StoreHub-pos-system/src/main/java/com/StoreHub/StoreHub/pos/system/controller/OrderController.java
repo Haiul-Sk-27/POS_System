@@ -3,7 +3,7 @@ package com.StoreHub.StoreHub.pos.system.controller;
 import com.StoreHub.StoreHub.pos.system.domain.OrderStatus;
 import com.StoreHub.StoreHub.pos.system.domain.PaymentType;
 import com.StoreHub.StoreHub.pos.system.payload.response.ApiResponse;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.OrderDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.OrderDto;
 import com.StoreHub.StoreHub.pos.system.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

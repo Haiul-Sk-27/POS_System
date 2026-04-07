@@ -2,7 +2,7 @@ package com.StoreHub.StoreHub.pos.system.controller;
 
 import com.StoreHub.StoreHub.pos.system.exceptions.UserException;
 import com.StoreHub.StoreHub.pos.system.payload.response.AuthResponse;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.UserDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.UserDto;
 import com.StoreHub.StoreHub.pos.system.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

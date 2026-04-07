@@ -4,7 +4,7 @@ import com.StoreHub.StoreHub.pos.system.domain.UserRole;
 import com.StoreHub.StoreHub.pos.system.mapper.UserMapper;
 import com.StoreHub.StoreHub.pos.system.model.User;
 import com.StoreHub.StoreHub.pos.system.payload.response.ApiResponse;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.UserDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.UserDto;
 import com.StoreHub.StoreHub.pos.system.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

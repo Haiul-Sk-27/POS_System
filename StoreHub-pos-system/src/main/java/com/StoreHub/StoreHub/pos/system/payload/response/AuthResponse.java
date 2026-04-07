@@ -1,6 +1,6 @@
 package com.StoreHub.StoreHub.pos.system.payload.response;
 
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.UserDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.UserDto;
 import lombok.Data;
 
 @Data

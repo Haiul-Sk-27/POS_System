@@ -4,7 +4,7 @@ import com.StoreHub.StoreHub.pos.system.domain.StoreStatus;
 import com.StoreHub.StoreHub.pos.system.exceptions.UserException;
 import com.StoreHub.StoreHub.pos.system.model.Store;
 import com.StoreHub.StoreHub.pos.system.model.User;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.StoreDTO;
+import com.StoreHub.StoreHub.pos.system.payload.dto.StoreDTO;
 
 import java.util.List;
 

@@ -5,13 +5,15 @@ import com.StoreHub.StoreHub.pos.system.model.Category;
 import com.StoreHub.StoreHub.pos.system.model.Product;
 import com.StoreHub.StoreHub.pos.system.model.Store;
 import com.StoreHub.StoreHub.pos.system.model.User;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.ProductDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.ProductDto;
 import com.StoreHub.StoreHub.pos.system.repository.CategoryRepository;
 import com.StoreHub.StoreHub.pos.system.repository.ProductRepository;
 import com.StoreHub.StoreHub.pos.system.repository.StoreRepository;
+import com.StoreHub.StoreHub.pos.system.service.FileStorageService;
 import com.StoreHub.StoreHub.pos.system.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,23 +26,27 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final StoreRepository storeRepository;
     private  final CategoryRepository categoryRepository;
+    private final FileStorageService fileStorageService;
 
     @Override
-    public ProductDto createProduct(ProductDto productDto, User user) throws Exception {
+    public ProductDto createProduct(
+            MultipartFile file,
+            ProductDto productDto,
+            User user
+    ) throws Exception {
 
-        Store store = storeRepository.findById(
-                productDto.getStoreId()
-        ).orElseThrow(
-                ()->new Exception("Store not found")
-        );
+        Store store = storeRepository.findById(productDto.getStoreId())
+                .orElseThrow(() -> new Exception("Store not found"));
 
-        Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
-                ()-> new Exception("Category not found")
-        );
+        Category category = categoryRepository.findById(productDto.getCategoryId())
+                .orElseThrow(() -> new Exception("Category not found"));
 
-        Product product = ProductMapper.toEntity(productDto,store,category);
-        Product savedProduct = productRepository.save(product);
-        return ProductMapper.toDto(savedProduct);
+        String imagePath = fileStorageService.storeProductImage(file);
+
+        Product product = ProductMapper.toEntity(productDto, store, category);
+        product.setImagePath(imagePath);
+
+        return ProductMapper.toDto(productRepository.save(product));
     }
 
     @Override

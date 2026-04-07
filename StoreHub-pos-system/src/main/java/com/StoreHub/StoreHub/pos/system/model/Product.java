@@ -2,7 +2,9 @@ package com.StoreHub.StoreHub.pos.system.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Blob;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,6 +22,9 @@ public class Product {
     @Column(nullable = false,unique = true)
     private String name;
 
+    @Column(nullable = false)
+    private String imagePath;
+
     @Column(nullable = false,unique = true)
     private String sku;
 
@@ -30,7 +35,8 @@ public class Product {
     private double sellingPrice;
 
     private String brand;
-    private String image;
+
+    private String imageName;
 
     @ManyToOne
     private Category category;

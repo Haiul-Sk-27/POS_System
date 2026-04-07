@@ -1,6 +1,6 @@
 package com.StoreHub.StoreHub.pos.system.service;
 
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.RefundDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.RefundDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

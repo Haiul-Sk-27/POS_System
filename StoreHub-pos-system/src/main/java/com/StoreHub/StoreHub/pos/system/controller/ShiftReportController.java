@@ -1,6 +1,6 @@
 package com.StoreHub.StoreHub.pos.system.controller;
 
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.ShiftReportDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.ShiftReportDto;
 import com.StoreHub.StoreHub.pos.system.service.ShiftReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;

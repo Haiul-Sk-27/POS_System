@@ -1,4 +1,4 @@
-package com.StoreHub.StoreHub.pos.system.payload.response.dto;
+package com.StoreHub.StoreHub.pos.system.payload.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

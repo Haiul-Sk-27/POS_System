@@ -1,10 +1,8 @@
 package com.StoreHub.StoreHub.pos.system.mapper;
 
 import com.StoreHub.StoreHub.pos.system.model.Order;
-import com.StoreHub.StoreHub.pos.system.model.OrderItem;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.OrderDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.OrderDto;
 
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class OrderMapper {

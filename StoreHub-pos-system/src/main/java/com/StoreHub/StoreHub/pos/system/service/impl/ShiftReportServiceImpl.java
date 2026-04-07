@@ -3,7 +3,7 @@ package com.StoreHub.StoreHub.pos.system.service.impl;
 import com.StoreHub.StoreHub.pos.system.domain.PaymentType;
 import com.StoreHub.StoreHub.pos.system.mapper.ShiftReportMapper;
 import com.StoreHub.StoreHub.pos.system.model.*;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.ShiftReportDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.ShiftReportDto;
 import com.StoreHub.StoreHub.pos.system.repository.OrderRepository;
 import com.StoreHub.StoreHub.pos.system.repository.RefundRepository;
 import com.StoreHub.StoreHub.pos.system.repository.ShiftReportRepository;
@@ -144,14 +144,11 @@ public class ShiftReportServiceImpl implements ShiftReportService {
         List<Refund> refunds = refundRepository.findByCashierIdAndCreatedAtBetween(
                 user.getId(),shiftReport.getShiftStart(),shiftReport.getShiftEnd()
         );
-        System.out.println("Refund: "+refunds);
 
         Double totalRefund = refunds.stream()
                 .mapToDouble(refund -> refund.getAmount()!=null?refund.getAmount():0.0).sum();
-        System.out.println("TotalRefund:"+totalRefund);
 
         double totalSales = orders.stream().mapToDouble(Order::getTotalAmount).sum();
-        System.out.println("TotalSales:"+totalSales);
 
         int totalOrders = orders.size();
         System.out.println("Total:"+totalOrders);

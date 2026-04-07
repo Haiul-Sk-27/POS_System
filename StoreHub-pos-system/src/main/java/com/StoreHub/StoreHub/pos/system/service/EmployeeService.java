@@ -2,7 +2,7 @@ package com.StoreHub.StoreHub.pos.system.service;
 
 import com.StoreHub.StoreHub.pos.system.domain.UserRole;
 import com.StoreHub.StoreHub.pos.system.model.User;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.UserDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.UserDto;
 
 import java.util.List;
 

@@ -1,7 +1,5 @@
-package com.StoreHub.StoreHub.pos.system.payload.response.dto;
+package com.StoreHub.StoreHub.pos.system.payload.dto;
 
-import com.StoreHub.StoreHub.pos.system.model.Order;
-import com.StoreHub.StoreHub.pos.system.model.Product;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 

@@ -1,8 +1,6 @@
 package com.StoreHub.StoreHub.pos.system.model;
 
 import com.StoreHub.StoreHub.pos.system.domain.PaymentType;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.OrderDto;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.UserDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

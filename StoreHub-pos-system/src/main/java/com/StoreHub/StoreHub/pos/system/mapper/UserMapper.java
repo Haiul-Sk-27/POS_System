@@ -1,7 +1,7 @@
 package com.StoreHub.StoreHub.pos.system.mapper;
 
 import com.StoreHub.StoreHub.pos.system.model.User;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.UserDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.UserDto;
 
 public class UserMapper {
 

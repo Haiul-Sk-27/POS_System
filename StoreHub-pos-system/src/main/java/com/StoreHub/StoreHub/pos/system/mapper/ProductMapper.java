@@ -3,7 +3,7 @@ package com.StoreHub.StoreHub.pos.system.mapper;
 import com.StoreHub.StoreHub.pos.system.model.Category;
 import com.StoreHub.StoreHub.pos.system.model.Product;
 import com.StoreHub.StoreHub.pos.system.model.Store;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.ProductDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.ProductDto;
 
 public class ProductMapper {
 
@@ -19,7 +19,8 @@ public class ProductMapper {
                 .categoryId(product.getCategory()!=null?product.getCategory().getId():null)
                 .category(CategoryMapper.toDTO(product.getCategory()))
                 .storeId(product.getStore()!= null?product.getStore().getId():null)
-                .image(product.getImage())
+                .imageName(product.getImageName())
+                .imagePath(product.getImagePath())
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
                 .build();
@@ -33,7 +34,8 @@ public class ProductMapper {
                 .mrp(productDto.getMrp())
                 .sellingPrice(productDto.getSellingPrice())
                 .brand(productDto.getBrand())
-                .image(productDto.getImage())
+                .imageName(productDto.getImageName())
+                .imagePath(productDto.getImagePath())
                 .store(store)
                 .category(category)
                 .build();

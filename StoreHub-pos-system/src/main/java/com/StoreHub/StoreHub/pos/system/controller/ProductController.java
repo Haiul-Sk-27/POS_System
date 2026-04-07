@@ -1,14 +1,15 @@
 package com.StoreHub.StoreHub.pos.system.controller;
 
-import com.StoreHub.StoreHub.pos.system.exceptions.UserException;
 import com.StoreHub.StoreHub.pos.system.model.User;
 import com.StoreHub.StoreHub.pos.system.payload.response.ApiResponse;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.ProductDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.ProductDto;
 import com.StoreHub.StoreHub.pos.system.service.ProductService;
 import com.StoreHub.StoreHub.pos.system.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,17 +21,21 @@ public class ProductController {
     private final ProductService productService;
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto,
+                                             @RequestPart("file") MultipartFile file,
                                              @RequestHeader("Authorization") String jwt) throws Exception {
         User user = userService.getUserFromJwtToken(jwt);
         return ResponseEntity.ok(
                 productService.createProduct(
+                        file,
                         productDto,
                         user
                 )
         );
     }
+
+
 
     @GetMapping("/store/{storeId}")
     public ResponseEntity<List<ProductDto>> getByStoreId(@PathVariable Long storeId,

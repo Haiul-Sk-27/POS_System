@@ -5,7 +5,7 @@ import com.StoreHub.StoreHub.pos.system.exceptions.UserException;
 import com.StoreHub.StoreHub.pos.system.mapper.StoreMapper;
 import com.StoreHub.StoreHub.pos.system.model.User;
 import com.StoreHub.StoreHub.pos.system.payload.response.ApiResponse;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.StoreDTO;
+import com.StoreHub.StoreHub.pos.system.payload.dto.StoreDTO;
 import com.StoreHub.StoreHub.pos.system.service.StoreService;
 import com.StoreHub.StoreHub.pos.system.service.UserService;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.StoreHub.StoreHub.pos.system.controller;
 
 import com.StoreHub.StoreHub.pos.system.payload.response.ApiResponse;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.InventoryDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.InventoryDto;
 import com.StoreHub.StoreHub.pos.system.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

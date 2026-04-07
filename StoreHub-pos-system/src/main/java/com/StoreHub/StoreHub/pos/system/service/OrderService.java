@@ -2,7 +2,7 @@ package com.StoreHub.StoreHub.pos.system.service;
 
 import com.StoreHub.StoreHub.pos.system.domain.OrderStatus;
 import com.StoreHub.StoreHub.pos.system.domain.PaymentType;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.OrderDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.OrderDto;
 
 import java.util.List;
 

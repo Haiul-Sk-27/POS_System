@@ -1,6 +1,6 @@
 package com.StoreHub.StoreHub.pos.system.service;
 
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.CategoryDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.CategoryDto;
 
 import java.util.List;
 

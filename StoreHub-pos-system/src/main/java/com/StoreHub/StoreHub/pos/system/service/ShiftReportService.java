@@ -1,6 +1,6 @@
 package com.StoreHub.StoreHub.pos.system.service;
 
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.ShiftReportDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.ShiftReportDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

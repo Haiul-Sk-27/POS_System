@@ -6,7 +6,7 @@ import com.StoreHub.StoreHub.pos.system.exceptions.UserException;
 import com.StoreHub.StoreHub.pos.system.mapper.UserMapper;
 import com.StoreHub.StoreHub.pos.system.model.User;
 import com.StoreHub.StoreHub.pos.system.payload.response.AuthResponse;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.UserDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.UserDto;
 import com.StoreHub.StoreHub.pos.system.repository.UserRepository;
 import com.StoreHub.StoreHub.pos.system.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +60,6 @@ public class AuthServiceImpl implements AuthService {
 //        );
 
         Authentication authentication =
-
                 new UsernamePasswordAuthenticationToken(userDto.getEmail(),userDto.getPassword());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);

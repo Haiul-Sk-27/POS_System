@@ -5,7 +5,7 @@ import com.StoreHub.StoreHub.pos.system.mapper.BranchMapper;
 import com.StoreHub.StoreHub.pos.system.model.Branch;
 import com.StoreHub.StoreHub.pos.system.model.Store;
 import com.StoreHub.StoreHub.pos.system.model.User;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.BranchDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.BranchDto;
 import com.StoreHub.StoreHub.pos.system.repository.BranchRepository;
 import com.StoreHub.StoreHub.pos.system.repository.StoreRepository;
 import com.StoreHub.StoreHub.pos.system.service.BranchService;

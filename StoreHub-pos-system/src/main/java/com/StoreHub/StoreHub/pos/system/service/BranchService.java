@@ -1,7 +1,7 @@
 package com.StoreHub.StoreHub.pos.system.service;
 
 import com.StoreHub.StoreHub.pos.system.exceptions.UserException;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.BranchDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.BranchDto;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.StoreHub.StoreHub.pos.system.mapper;
 
 import com.StoreHub.StoreHub.pos.system.model.Store;
 import com.StoreHub.StoreHub.pos.system.model.User;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.StoreDTO;
+import com.StoreHub.StoreHub.pos.system.payload.dto.StoreDTO;
 
 public class StoreMapper {
     public static StoreDTO toDTO(Store store){

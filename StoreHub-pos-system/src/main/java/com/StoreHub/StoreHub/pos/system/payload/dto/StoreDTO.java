@@ -1,8 +1,7 @@
-package com.StoreHub.StoreHub.pos.system.payload.response.dto;
+package com.StoreHub.StoreHub.pos.system.payload.dto;
 
 import com.StoreHub.StoreHub.pos.system.domain.StoreStatus;
 import com.StoreHub.StoreHub.pos.system.model.StoreContact;
-import com.StoreHub.StoreHub.pos.system.model.User;
 import lombok.Data;
 
 import java.time.LocalDateTime;

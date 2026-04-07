@@ -1,4 +1,4 @@
-package com.StoreHub.StoreHub.pos.system.payload.response.dto;
+package com.StoreHub.StoreHub.pos.system.payload.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +15,8 @@ public class ProductDto {
 
     private Long id;
     private String name;
+    private String imageName;
+    private String imagePath;
     private String sku;
     private String description;
     private Double mrp;

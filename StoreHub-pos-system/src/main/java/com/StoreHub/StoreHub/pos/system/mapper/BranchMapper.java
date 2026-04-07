@@ -2,7 +2,7 @@ package com.StoreHub.StoreHub.pos.system.mapper;
 
 import com.StoreHub.StoreHub.pos.system.model.Branch;
 import com.StoreHub.StoreHub.pos.system.model.Store;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.BranchDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.BranchDto;
 
 import java.time.LocalDateTime;
 

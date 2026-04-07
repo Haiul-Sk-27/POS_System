@@ -1,9 +1,8 @@
 package com.StoreHub.StoreHub.pos.system.controller;
 
 import com.StoreHub.StoreHub.pos.system.exceptions.UserException;
-import com.StoreHub.StoreHub.pos.system.model.User;
 import com.StoreHub.StoreHub.pos.system.payload.response.ApiResponse;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.BranchDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.BranchDto;
 import com.StoreHub.StoreHub.pos.system.service.BranchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

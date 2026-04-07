@@ -1,7 +1,7 @@
 package com.StoreHub.StoreHub.pos.system.mapper;
 
 import com.StoreHub.StoreHub.pos.system.model.Refund;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.RefundDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.RefundDto;
 
 public class RefundMapper {
 

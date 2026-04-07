@@ -1,6 +1,5 @@
 package com.StoreHub.StoreHub.pos.system.model;
 
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.RefundDto;
 import jakarta.persistence.*;
 import lombok.*;
 

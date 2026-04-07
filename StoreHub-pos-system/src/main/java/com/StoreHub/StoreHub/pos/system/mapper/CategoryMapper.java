@@ -1,7 +1,7 @@
 package com.StoreHub.StoreHub.pos.system.mapper;
 
 import com.StoreHub.StoreHub.pos.system.model.Category;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.CategoryDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.CategoryDto;
 
 public class CategoryMapper {
     public static CategoryDto toDTO(Category category) {

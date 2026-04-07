@@ -4,7 +4,7 @@ import com.StoreHub.StoreHub.pos.system.mapper.InventoryMapper;
 import com.StoreHub.StoreHub.pos.system.model.Branch;
 import com.StoreHub.StoreHub.pos.system.model.Inventory;
 import com.StoreHub.StoreHub.pos.system.model.Product;
-import com.StoreHub.StoreHub.pos.system.payload.response.dto.InventoryDto;
+import com.StoreHub.StoreHub.pos.system.payload.dto.InventoryDto;
 import com.StoreHub.StoreHub.pos.system.repository.BranchRepository;
 import com.StoreHub.StoreHub.pos.system.repository.InventoryRepository;
 import com.StoreHub.StoreHub.pos.system.repository.ProductRepository;

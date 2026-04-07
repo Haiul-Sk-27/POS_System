@@ -27,8 +27,6 @@ public class JwtProvider {
                         .claim("authorities",roles)
                         .signWith(key)
                         .compact();
-
-
     }
 
     public String getEmailFromToken(String jwt){
