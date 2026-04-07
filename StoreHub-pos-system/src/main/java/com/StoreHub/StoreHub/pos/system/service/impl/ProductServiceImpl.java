@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,21 +41,27 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new Exception("Store not found"));
 
         Category category = categoryRepository.findById(productDto.getCategoryId())
-                .orElseThrow(() -> new Exception("Category not found"));
+                .orElseThrow(() -> new Exception("Category ID not found"));
 
-        String imagePath = fileStorageService.storeProductImage(file);
+        String imagePath = fileStorageService.storeProductImage(file,productDto.getName());
 
         Product product = ProductMapper.toEntity(productDto, store, category);
         product.setImagePath(imagePath);
+        product.setImageName(Paths.get(imagePath).getFileName().toString());
 
         return ProductMapper.toDto(productRepository.save(product));
     }
 
     @Override
-    public ProductDto updateProduct(Long id, ProductDto productDto, User user) throws Exception {
-        Product product = productRepository.findById(id).orElseThrow(
-                ()->new Exception("Product not found")
-        );
+    public ProductDto updateProduct(
+            Long id,
+            ProductDto productDto,
+            User user,
+            MultipartFile file
+    ) throws Exception {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new Exception("Product not found"));
 
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
@@ -63,16 +71,29 @@ public class ProductServiceImpl implements ProductService {
         product.setBrand(productDto.getBrand());
         product.setUpdatedAt(LocalDateTime.now());
 
-        if(productDto.getCategoryId()!=null){
-
-            Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
-                    ()->new Exception ("Category not found")
-            );
+        if (productDto.getCategoryId() != null) {
+            Category category = categoryRepository.findById(productDto.getCategoryId())
+                    .orElseThrow(() -> new Exception("Category not found"));
             product.setCategory(category);
         }
+        if (file != null && !file.isEmpty()) {
+            String oldImagePath = product.getImagePath();
+            String newImagePath =
+                    fileStorageService.storeProductImage(file, productDto.getName());
 
-        Product saveProduct = productRepository.save(product);
-        return ProductMapper.toDto(saveProduct);
+            product.setImagePath(newImagePath);
+            product.setImageName(Paths.get(newImagePath).getFileName().toString());
+            if (oldImagePath != null) {
+                try {
+                    Files.deleteIfExists(Paths.get(oldImagePath));
+                } catch (Exception e) {
+                    System.err.println("Failed to delete old image: " + oldImagePath);
+                }
+            }
+        }
+
+        Product savedProduct = productRepository.save(product);
+        return ProductMapper.toDto(savedProduct);
     }
 
     @Override

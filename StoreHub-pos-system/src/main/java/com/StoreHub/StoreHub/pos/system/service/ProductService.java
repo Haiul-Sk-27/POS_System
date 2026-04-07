@@ -9,7 +9,7 @@ import java.util.List;
 public interface ProductService {
 
     ProductDto createProduct(MultipartFile file,ProductDto productDto, User user) throws Exception;
-    ProductDto updateProduct(Long id, ProductDto productDto,User user) throws Exception;
+    ProductDto updateProduct(Long id, ProductDto productDto,User user,MultipartFile file) throws Exception;
     void deleteProduct(Long id, User user) throws Exception;
     List<ProductDto> getProductByStoreId(Long storeId);
     List<ProductDto> searchByKeyword(Long storeId,String keyword);

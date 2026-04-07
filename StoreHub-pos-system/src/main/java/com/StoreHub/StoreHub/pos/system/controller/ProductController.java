@@ -5,6 +5,7 @@ import com.StoreHub.StoreHub.pos.system.payload.response.ApiResponse;
 import com.StoreHub.StoreHub.pos.system.payload.dto.ProductDto;
 import com.StoreHub.StoreHub.pos.system.service.ProductService;
 import com.StoreHub.StoreHub.pos.system.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,16 +23,19 @@ public class ProductController {
     private final UserService userService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto,
-                                             @RequestPart("file") MultipartFile file,
-                                             @RequestHeader("Authorization") String jwt) throws Exception {
+    public ResponseEntity<ProductDto> create(
+            @RequestPart("product") String productJson,
+            @RequestPart("file") MultipartFile file,
+            @RequestHeader("Authorization") String jwt
+    ) throws Exception {
+
         User user = userService.getUserFromJwtToken(jwt);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductDto productDto = objectMapper.readValue(productJson, ProductDto.class);
+
         return ResponseEntity.ok(
-                productService.createProduct(
-                        file,
-                        productDto,
-                        user
-                )
+                productService.createProduct(file, productDto, user)
         );
     }
 
@@ -65,19 +69,28 @@ public class ProductController {
         );
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> update(
+    @PutMapping(
+            value = "/{id}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public ResponseEntity<ProductDto> updateProduct(
             @PathVariable Long id,
-            @RequestBody ProductDto productDto,
+            @RequestPart("product") String productJson,
+            @RequestPart(value = "file", required = false) MultipartFile file,
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
+
         User user = userService.getUserFromJwtToken(jwt);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductDto productDto = objectMapper.readValue(productJson, ProductDto.class);
 
         return ResponseEntity.ok(
                 productService.updateProduct(
                         id,
                         productDto,
-                        user
+                        user,
+                        file
                 )
         );
     }

@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Service
@@ -17,7 +19,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     private static final Path UPLOAD_DIR = Paths.get("uploads/product_image");
 
-    public FileStorageServiceImpl() {
+    public FileStorageServiceImpl() throws FileStorageException {
         try {
             Files.createDirectories(UPLOAD_DIR);
         } catch (IOException e) {
@@ -26,24 +28,43 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public String storeProductImage(MultipartFile file) throws FileStorageException {
+    public String storeProductImage(MultipartFile file, String productName) throws FileStorageException {
 
-        if (file.isEmpty()) {
+        if (file == null || file.isEmpty()) {
             throw new FileStorageException("File is empty");
         }
 
-        if (!file.getContentType().startsWith("image/")) {
+        if (file.getContentType() == null || !file.getContentType().startsWith("image/")) {
             throw new FileStorageException("Only image files are allowed");
         }
 
-        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        if (productName == null || productName.isBlank()) {
+            throw new FileStorageException("Product name is required for image upload");
+        }
+
+        // 1️⃣ Clean product name
+        String cleanProductName = productName
+                .toLowerCase()
+                .replaceAll("[^a-z0-9]", "_");
+
+        String timeStamp = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+
+        String originalFileName = file.getOriginalFilename();
+        String extension = "";
+
+        if (originalFileName != null && originalFileName.contains(".")) {
+            extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        }
+
+        String fileName = cleanProductName + "_" + timeStamp + extension;
 
         try {
             Path targetPath = UPLOAD_DIR.resolve(fileName);
             Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
             return targetPath.toString();
         } catch (IOException e) {
-            throw new FileStorageException("Failed to store file"+ e);
+            throw new FileStorageException("Failed to store file", e);
         }
     }
 }
