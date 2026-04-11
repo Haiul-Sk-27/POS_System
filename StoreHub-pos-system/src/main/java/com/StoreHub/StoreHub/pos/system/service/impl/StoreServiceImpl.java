@@ -27,13 +27,9 @@ public class StoreServiceImpl implements StoreService {
     public StoreDTO createStore(StoreDTO storeDTO, User user) {
 
         Store store = StoreMapper.toEntity(storeDTO, user);
-
-        // ✅ Ensure contact is never null
         if (store.getContact() == null) {
             store.setContact(new StoreContact());
         }
-
-        // ✅ Ensure status is set (very important)
         if (store.getStatus() == null) {
             store.setStatus(StoreStatus.PENDING);
         }

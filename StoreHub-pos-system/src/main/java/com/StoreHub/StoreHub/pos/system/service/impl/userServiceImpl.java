@@ -52,13 +52,11 @@ public class userServiceImpl implements UserService {
 
     @Override
     public User getUserById(long id) {
-
         return userRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<User> getAllUsers() {
-
         return userRepository.findAll();
     }
 }

@@ -50,8 +50,6 @@ public class ShiftReportServiceImpl implements ShiftReportService {
                 .build();
 
         ShiftReport savedReport = shiftReportRepository.save(shiftReport);
-        System.out.println("Shift:"+savedReport);
-
         return ShiftReportMapper.toDto(savedReport);
     }
 

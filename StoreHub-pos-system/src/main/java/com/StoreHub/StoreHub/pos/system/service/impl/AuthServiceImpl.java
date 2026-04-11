@@ -4,11 +4,14 @@ import com.StoreHub.StoreHub.pos.system.configuration.JwtProvider;
 import com.StoreHub.StoreHub.pos.system.domain.UserRole;
 import com.StoreHub.StoreHub.pos.system.exceptions.UserException;
 import com.StoreHub.StoreHub.pos.system.mapper.UserMapper;
+import com.StoreHub.StoreHub.pos.system.model.PasswordResetToken;
 import com.StoreHub.StoreHub.pos.system.model.User;
 import com.StoreHub.StoreHub.pos.system.payload.response.AuthResponse;
 import com.StoreHub.StoreHub.pos.system.payload.dto.UserDto;
+import com.StoreHub.StoreHub.pos.system.repository.PasswordResetTokenRepository;
 import com.StoreHub.StoreHub.pos.system.repository.UserRepository;
 import com.StoreHub.StoreHub.pos.system.service.AuthService;
+import com.StoreHub.StoreHub.pos.system.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,8 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final CustomUserImplementation customUserImplementation;
+    private final EmailService emailService;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
 //    private  final EmailService emailService;
 
     @Override
@@ -90,12 +96,59 @@ public class AuthServiceImpl implements AuthService {
         user.setLastLogin(LocalDateTime.now());
         userRepository.save(user);
 
+        emailService.sendEmail(
+                user.getEmail(),
+
+                "Login seccusess"+user.getFullName(),
+                "Congralution"+user.getFullName()
+        );
         AuthResponse authResponse =new AuthResponse();
         authResponse.setJwt(jwt);
         authResponse.setMessage("Login successfully");
         authResponse.setUser(UserMapper.toDTO(user));
 
         return authResponse;
+    }
+
+    @Override
+    public void createPasswordResetToken(String email) throws UserException {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UserException("User not found");
+        }
+
+        String token = UUID.randomUUID().toString();
+
+        PasswordResetToken resetToken = PasswordResetToken.builder()
+                .token(token)
+                .user(user)
+                .expiryDate(LocalDateTime.now().plusMinutes(5))
+                .build();
+
+        passwordResetTokenRepository.save(resetToken);
+
+        emailService.sendEmail(
+                user.getEmail(),
+                "Password Reset",
+                "Reset token: " + token
+        );
+    }
+
+    @Override
+    public void restPassword(String token, String newPassword) throws UserException {
+        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token)
+                .orElseThrow(()->new UserException("Invalid token"));
+
+        if(resetToken.isExpired()){
+            passwordResetTokenRepository.delete(resetToken);
+            throw new UserException("Token exired");
+        }
+
+        User user = resetToken.getUser();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        passwordResetTokenRepository.delete(resetToken);
     }
 
     private Authentication authenticate(String email, String password) throws UserException {
