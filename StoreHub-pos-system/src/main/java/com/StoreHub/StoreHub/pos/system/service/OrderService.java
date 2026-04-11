@@ -21,5 +21,4 @@ public interface OrderService {
     List<OrderDto> getOrderByCustomerId(Long cutomerId);
     List<OrderDto> getTop5RecentOrdersByBranch(Long branchId )throws Exception;
 
-
 }
