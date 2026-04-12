@@ -37,6 +37,10 @@ public class ProductServiceImpl implements ProductService {
             User user
     ) throws Exception {
 
+        if (productRepository.existsByName(productDto.getName())) {
+            throw new RuntimeException("Product name already exists");
+        }
+
         Store store = storeRepository.findById(productDto.getStoreId())
                 .orElseThrow(() -> new Exception("Store not found"));
 

@@ -14,6 +14,7 @@ public class OrderMapper {
                 .branchId(order.getBranch().getId())
                 .cashier(UserMapper.toDTO(order.getCashier()))
                 .customerId(order.getCustomer().getId())
+                .customerName(order.getCustomer() != null ? order.getCustomer().getFullName() : null)
                 .paymentType(order.getPaymentType())
                 .createdAt(order.getCreatedAt())
                 .items(order.getItems().stream()

@@ -56,7 +56,8 @@ public class SecurityConfig {
 
                 cfg.setAllowedOrigins(
                         Arrays.asList(
-                                "http://localhost:5173"
+                                "http://localhost:5173",
+                                "http://127.0.0.1:5500"
                         )
                 );
                 cfg.setAllowedMethods(Collections.singletonList("*"));

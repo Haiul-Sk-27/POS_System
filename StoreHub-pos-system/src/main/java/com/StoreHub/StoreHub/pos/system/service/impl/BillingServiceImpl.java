@@ -17,7 +17,6 @@ public class BillingServiceImpl implements BillingService {
 
     private final OrderService orderService;
     private static final double GST_PERCENT = 18.0;
-
     @Override
     public BillingDto generateBill(Long orderId) throws Exception {
         OrderDto order = orderService.getOrderById(orderId);
@@ -33,7 +32,7 @@ public class BillingServiceImpl implements BillingService {
                 .orderId(order.getId())
                 .branchId(order.getBranchId())
                 .customerId(order.getCustomerId())
-                .customerName(order.getCustomer() != null ? order.getCustomer().getFullName():null)
+                .customerName(order.getCustomerName() != null ? order.getCustomerName() : null)
                 .items(items)
                 .subTotal(subTotal)
                 .taxAmount(taxAmount)

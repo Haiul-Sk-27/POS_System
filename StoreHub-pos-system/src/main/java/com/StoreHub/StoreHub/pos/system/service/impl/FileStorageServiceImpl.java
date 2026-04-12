@@ -17,7 +17,8 @@ import java.util.UUID;
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
-    private static final Path UPLOAD_DIR = Paths.get("uploads/product_image");
+    private static final Path UPLOAD_DIR =
+            Paths.get(System.getProperty("user.dir"), "uploads", "product_image");
 
     public FileStorageServiceImpl() throws FileStorageException {
         try {
@@ -38,11 +39,6 @@ public class FileStorageServiceImpl implements FileStorageService {
             throw new FileStorageException("Only image files are allowed");
         }
 
-        if (productName == null || productName.isBlank()) {
-            throw new FileStorageException("Product name is required for image upload");
-        }
-
-        // 1️⃣ Clean product name
         String cleanProductName = productName
                 .toLowerCase()
                 .replaceAll("[^a-z0-9]", "_");
@@ -51,18 +47,19 @@ public class FileStorageServiceImpl implements FileStorageService {
                 .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
 
         String originalFileName = file.getOriginalFilename();
-        String extension = "";
-
-        if (originalFileName != null && originalFileName.contains(".")) {
-            extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        }
+        String extension = originalFileName != null && originalFileName.contains(".")
+                ? originalFileName.substring(originalFileName.lastIndexOf("."))
+                : "";
 
         String fileName = cleanProductName + "_" + timeStamp + extension;
 
         try {
             Path targetPath = UPLOAD_DIR.resolve(fileName);
             Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-            return targetPath.toString();
+
+            // ✅ IMPORTANT
+            return "/uploads/product_image/" + fileName;
+
         } catch (IOException e) {
             throw new FileStorageException("Failed to store file", e);
         }

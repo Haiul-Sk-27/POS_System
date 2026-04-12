@@ -10,6 +10,7 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product,Long> {
 
     List<Product> findByStoreId(Long storeId);
+    boolean existsByName(String name);
 
     @Query(
             "SELECT p FROM Product p " +

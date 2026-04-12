@@ -29,7 +29,7 @@ public class OrderDto {
     private BranchDto branch;
 
     private UserDto cashier;
-
+    private String customerName;
     private Customer customer;
 
     private PaymentType paymentType;
