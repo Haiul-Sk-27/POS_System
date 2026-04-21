@@ -1,13 +1,18 @@
-
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from './assets/vite.svg'
+import heroImg from './assets/hero.png'
+import './App.css'
+import { Button } from './components/ui/button'
 
 function App() {
-  
+  const [count, setCount] = useState(0)
+
   return (
-    <>
-    <h1 className="text-3xl font-bold bg-gradient-to-r from-red-500 to-blue-500 bg-clip-text text-transparent">
-      Tailwind test
-    </h1>
-    </>
+   <div>
+    <h1 className='text-amber-400 font-bold flex justify-center align-middle'>Tailwind test </h1>
+    <Button>Button</Button>
+   </div>
   )
 }
 
