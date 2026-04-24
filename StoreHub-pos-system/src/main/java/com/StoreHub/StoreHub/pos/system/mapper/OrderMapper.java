@@ -15,6 +15,7 @@ public class OrderMapper {
                 .cashier(UserMapper.toDTO(order.getCashier()))
                 .customerId(order.getCustomer().getId())
                 .customerName(order.getCustomer() != null ? order.getCustomer().getFullName() : null)
+                .customerEmail(order.getCustomer() != null? order.getCustomer().getEmail():null)
                 .paymentType(order.getPaymentType())
                 .createdAt(order.getCreatedAt())
                 .items(order.getItems().stream()

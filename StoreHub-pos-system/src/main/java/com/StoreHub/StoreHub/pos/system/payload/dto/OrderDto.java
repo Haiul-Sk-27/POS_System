@@ -31,6 +31,7 @@ public class OrderDto {
     private UserDto cashier;
     private String customerName;
     private Customer customer;
+    private String customerEmail;
 
     private PaymentType paymentType;
 

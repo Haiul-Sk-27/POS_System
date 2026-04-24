@@ -1,7 +1,9 @@
 package com.StoreHub.StoreHub.pos.system.service.impl;
 
 import com.StoreHub.StoreHub.pos.system.service.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,19 +21,48 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendEmail(String to, String subject, String body) {
-        try{
-            MimeMessage mimeMessage  = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,"UTF-8");
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(message, false, "UTF-8");
 
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(body);
+            helper.setText(body, false);
 
-            javaMailSender.send(mimeMessage);
-        }catch (MailException e){
-            throw  new MailSendException("Failed to send email",e);
-        }catch (Exception e){
-            throw new RuntimeException("Unexpected error while sending email",e);
+            javaMailSender.send(message);
+        } catch (MailException | MessagingException e) {
+            throw new MailSendException("Failed to send email", e);
+        }
+    }
+
+    @Override
+    public void sendEmailWithAttachment(
+            String to,
+            String subject,
+            String body,
+            byte[] attachment,
+            String fileName
+    ) {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body, false);
+
+            helper.addAttachment(
+                    fileName,
+                    new ByteArrayResource(attachment)
+            );
+
+            javaMailSender.send(message);
+
+        } catch (MailException | MessagingException e) {
+            throw new MailSendException("Failed to send email with attachment", e);
         }
     }
 }
